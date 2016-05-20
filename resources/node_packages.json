@@ -1,0 +1,24 @@
+[
+    {
+        "company": "google",
+        "packages":
+        [
+            {"language": "node", "category": "cloud", "name": "gcloud"}
+        ]
+    },
+    {
+        "company": "amazon",
+        "packages":
+        [
+            {"language": "node", "category": "cloud", "name": "aws-sdk"}
+        ]
+    },
+    {
+        "company": "microsoft",
+        "packages":
+        [
+            {"language": "node", "category": "cloud", "name": "azure"},
+            {"language": "node", "category": "cloud", "name": "azure-storage"}
+        ]
+    }
+ ]
