@@ -6,9 +6,6 @@ import java.util.logging.Logger;
 
 import com.node.packex.connector.NodeBigQueryConnector;
 import com.node.packex.manager.NodeMonthManager;
-import com.node.packex.model.Date;
-import com.node.packex.model.Month;
-import com.node.packex.model.Year;
 import com.packex.loader.CompanyLoader;
 import com.packex.model.company.CompanyPackages;
 import com.packex.model.company.PackageInfo;
@@ -33,20 +30,16 @@ public class NodePackageExplorer {
                     logger.log(Level.INFO, String.format("Saving the package info for %s in the %s language", 
                             pkg.getName().toUpperCase(), pkg.getLanguage().toUpperCase()));
                     
-                    // Start in July 2015
-                    Month startMonth = NodeUtil.getMonthList().get(7);
-                    Year startYear = new Year("2015", false);
-                    Date date = new Date(startMonth, startYear);
-                    
                     NodeMonthManager monthManager = 
-                            new NodeMonthManager(connector, date, pkg.getName(), companyPackages.getCompany(), pkg.getCategory());
+                            new NodeMonthManager(connector, pkg.getName(), companyPackages.getCompany(), pkg.getCategory());
+                    
                     monthManager.saveData();
                 }
             }
             
             connector.commit();
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "hit an issue with saving data", ex);
+            logger.log(Level.SEVERE, "hit an issue while committing the rows", ex);
         }
     }
     

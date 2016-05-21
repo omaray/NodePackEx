@@ -1,30 +1,26 @@
 package com.node.packex.loader;
 
+import java.time.LocalDate;
+
 import com.google.gson.Gson;
 import com.node.packex.NodeConstants;
-import com.node.packex.model.Month;
-import com.node.packex.model.Year;
 import com.packex.connector.HttpConnector;
 import com.packex.model.pkgmgr.NodeDownloadData;
-import com.packex.model.pkgmgr.RubyDownloadData;
 
 public class NodeMonthLoader {
-    Year year;
-    Month month;
     String packageName;
+    LocalDate startDate;
+    LocalDate endDate;
     String url;
-    String startDay;
-    String endDay;
     NodeDownloadData data;
     
-    public NodeMonthLoader(String packageName, Month month, Year year) {
+    public NodeMonthLoader(String packageName, LocalDate startDate) {
         this.packageName = packageName;
-        this.month = month;
-        this.year = year;
+        this.startDate = startDate;
         
-        this.startDay = String.format(month.monthStartDay, year.yearValue);
-        this.endDay = String.format(month.monthEndDay, year.yearValue);
-        this.url = String.format(NodeConstants.NODE_MONTH_URL_TEMPLATE, startDay, endDay, this.packageName);
+        int monthLength = this.startDate.lengthOfMonth();             
+        this.endDate = this.startDate.plusDays(monthLength - 1);
+        this.url = String.format(NodeConstants.NODE_MONTH_URL_TEMPLATE, this.startDate, this.endDate, this.packageName);
     }
     
     public void loadData() {
@@ -32,10 +28,39 @@ public class NodeMonthLoader {
         String response = connector.get(this.url);
         
         Gson gson = new Gson();
-        this.data = gson.fromJson(response, RubyDownloadData.class);
+        this.data = gson.fromJson(response, NodeDownloadData.class);
+    }
+    
+    public LocalDate getStartDate() {
+        return this.startDate;
+    }
+    
+    public LocalDate getEndDate() {
+        return this.endDate;
     }
     
     public NodeDownloadData getDownloadData() {
-        return null;
+        return data;
+    }
+    
+    public static void main(String[] args) {
+        LocalDate date = LocalDate.now();
+        LocalDate currentDate = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
+        
+        LocalDate oneMonthAgo = currentDate.minusMonths(1);
+        NodeMonthLoader loaderJan = new NodeMonthLoader("gcloud", oneMonthAgo);
+        loaderJan.loadData();
+        NodeDownloadData dataJan = loaderJan.getDownloadData();
+        System.out.println(loaderJan.getStartDate());
+        System.out.println(loaderJan.getEndDate());
+        System.out.println(dataJan.getDownloads());
+        
+        LocalDate twoMonthsAgo = currentDate.minusMonths(2);
+        NodeMonthLoader loaderFeb = new NodeMonthLoader("gcloud", twoMonthsAgo);
+        loaderFeb.loadData();
+        NodeDownloadData dataFeb = loaderFeb.getDownloadData();
+        System.out.println(loaderFeb.getStartDate());
+        System.out.println(loaderFeb.getEndDate());
+        System.out.println(dataFeb.getDownloads());
     }
 }

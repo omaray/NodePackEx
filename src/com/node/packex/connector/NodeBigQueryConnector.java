@@ -37,8 +37,12 @@ public class NodeBigQueryConnector extends BigQueryConnector {
         ArrayList<Field> fields = new ArrayList<Field>();
         
         // Core fields
-        Field dateField = Field.of(NodeConstants.MONTH_FIELD, Field.Type.string());
+        Field dateField = Field.of(Constants.DATE_FIELD, Field.Type.timestamp());
         fields.add(dateField);
+        Field yearField = Field.of(NodeConstants.YEAR_FIELD, Field.Type.integer());
+        fields.add(yearField);
+        Field monthField = Field.of(NodeConstants.MONTH_FIELD, Field.Type.string());
+        fields.add(monthField);
         Field companyField = Field.of(NodeConstants.COMPANY_FIELD, Field.Type.string());
         fields.add(companyField);
         Field nameField = Field.of(Constants.PACKAGE_NAME_FIELD, Field.Type.string());

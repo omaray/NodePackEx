@@ -15,6 +15,7 @@ public class NodeConstants {
     public static final String BQ_TABLE_TEST_NAME = BQ_TABLE_NAME + "_test";
 
     // BigQuery table fields
+    public static final String YEAR_FIELD = "year";
     public static final String MONTH_FIELD = "month";
     public static final String COMPANY_FIELD = "company";
 }
