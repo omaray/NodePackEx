@@ -7,20 +7,15 @@ import com.node.packex.NodeConstants;
 import com.packex.connector.HttpConnector;
 import com.packex.model.pkgmgr.NodeDownloadData;
 
-public class NodeMonthLoader {
-    String packageName;
-    LocalDate startDate;
-    LocalDate endDate;
-    String url;
-    NodeDownloadData data;
+public class NodeMonthLoader extends NodeTimeLoaderBase {
+    private NodeDownloadData data;
     
     public NodeMonthLoader(String packageName, LocalDate startDate) {
-        this.packageName = packageName;
-        this.startDate = startDate;
+        super(packageName, startDate);
         
         int monthLength = this.startDate.lengthOfMonth();             
         this.endDate = this.startDate.plusDays(monthLength - 1);
-        this.url = String.format(NodeConstants.NODE_MONTH_URL_TEMPLATE, this.startDate, this.endDate, this.packageName);
+        this.url = String.format(NodeConstants.NODE_POINT_URL_TEMPLATE, this.startDate, this.endDate, this.packageName);
     }
     
     public void loadData() {
@@ -29,14 +24,6 @@ public class NodeMonthLoader {
         
         Gson gson = new Gson();
         this.data = gson.fromJson(response, NodeDownloadData.class);
-    }
-    
-    public LocalDate getStartDate() {
-        return this.startDate;
-    }
-    
-    public LocalDate getEndDate() {
-        return this.endDate;
     }
     
     public NodeDownloadData getDownloadData() {
