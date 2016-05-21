@@ -15,14 +15,18 @@ public class NodePackageExplorer {
     
     public void execute() {
         NodeBigQueryConnector connector = NodeBigQueryConnector.getInstance();
-        connector.createDataset(NodeUtil.getNodeDatasetName());
+        
+        String datasetName = NodeUtil.getNodeDatasetName();
+        String tableName = NodeUtil.getNodeTableName(NodeConstants.MONTH);
+        connector.createDataset(datasetName);
+        connector.createMonthTable(datasetName, tableName);
         
         CompanyLoader companyLoader = new CompanyLoader();
         companyLoader.load(NodeConstants.NODE_PACKAGES_FILE_PATH);
         LinkedList<CompanyPackages> companyPackagesList = companyLoader.getCompanyData();
+        
         try {
-            connector.createMonthTable(NodeUtil.getNodeDatasetName(), NodeUtil.getNodeTableName(NodeConstants.MONTH));
-            connector.begin(NodeUtil.getNodeDatasetName(), NodeUtil.getNodeTableName(NodeConstants.MONTH));
+            connector.begin(datasetName, tableName);
             
             for (CompanyPackages companyPackages : companyPackagesList) {
                 for (PackageInfo pkg : companyPackages.getPackages()) {
@@ -44,6 +48,7 @@ public class NodePackageExplorer {
     }
     
     public static void main(String[] args) {
-        System.out.println("salut");
+        NodePackageExplorer nodePackEx = new NodePackageExplorer();
+        nodePackEx.execute();
     }
 }
