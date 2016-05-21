@@ -3,7 +3,8 @@
         "company": "google",
         "packages":
         [
-            {"language": "node", "category": "cloud", "name": "gcloud"}
+            {"language": "node", "category": "cloud", "name": "gcloud"},
+            {"language": "node", "category": "apiary", "name": "googleapis"}
         ]
     },
     {
