@@ -40,7 +40,7 @@ public class NodeMonthLoader {
     }
     
     public NodeDownloadData getDownloadData() {
-        return data;
+        return this.data;
     }
     
     public static void main(String[] args) {

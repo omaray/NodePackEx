@@ -11,7 +11,7 @@ import com.google.cloud.bigquery.TableId;
 import com.google.cloud.bigquery.TableInfo;
 import com.packex.Constants;
 import com.node.packex.NodeConstants;
-import com.packex.connector.*;
+import com.packex.connector.BigQueryConnector;
 
 public class NodeBigQueryConnector extends BigQueryConnector {
     protected static NodeBigQueryConnector instance;
@@ -59,6 +59,6 @@ public class NodeBigQueryConnector extends BigQueryConnector {
         
         // Create the table
         this.bigQuery.create(TableInfo.of(tableId, tableDefinition));
-        logger.log(Level.INFO, String.format("Create table \"%s\"", tableName));
+        logger.log(Level.INFO, String.format("Created table \"%s\"", tableName));
     }
 }

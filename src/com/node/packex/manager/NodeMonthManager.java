@@ -30,9 +30,9 @@ public class NodeMonthManager {
     }
 
     public void saveData() {        
-        LocalDate sixMonthsAgo = this.endDate.minusMonths(TIMELINE);
+        LocalDate manyMonthsAgo = this.endDate.minusMonths(TIMELINE);
         
-        for (LocalDate date = sixMonthsAgo; date.isBefore(this.endDate); date = date.plusMonths(1)) {            
+        for (LocalDate date = manyMonthsAgo; date.isBefore(this.endDate); date = date.plusMonths(1)) {            
             NodeMonthLoader loader = new NodeMonthLoader(this.packageName, date);
             loader.loadData();
             
